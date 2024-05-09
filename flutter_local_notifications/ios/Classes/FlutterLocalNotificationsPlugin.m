@@ -108,7 +108,16 @@ typedef NS_ENUM(NSInteger, RepeatInterval) {
   EveryMinute,
   Hourly,
   Daily,
-  Weekly
+  Weekly,
+  Monthly
+};
+
+typedef NS_ENUM(NSInteger, RepeatInterval1) {
+  FifteenMinute,
+  HalfHourly,
+  Hourly,
+  ThreeHourly.
+  SixHourly
 };
 
 typedef NS_ENUM(NSInteger, DateTimeComponents) {
@@ -817,20 +826,24 @@ static FlutterError *getFlutterError(NSError *error) {
     NSTimeInterval timeInterval = 0;
     switch ([arguments[REPEAT_INTERVAL] integerValue]) {
     case EveryMinute:
-      timeInterval = 60;
+      timeInterval = 60 * 15;
       notification.repeatInterval = NSCalendarUnitMinute;
       break;
     case Hourly:
+      timeInterval = 60 * 30;
+      notification.repeatInterval = NSCalendarUnitMinute;
+      break;
+    case Daily:
       timeInterval = 60 * 60;
       notification.repeatInterval = NSCalendarUnitHour;
       break;
-    case Daily:
-      timeInterval = 60 * 60 * 24;
-      notification.repeatInterval = NSCalendarUnitDay;
-      break;
     case Weekly:
-      timeInterval = 60 * 60 * 24 * 7;
-      notification.repeatInterval = NSCalendarUnitWeekOfYear;
+      timeInterval = 60 * 60 * 3;
+      notification.repeatInterval = NSCalendarUnitHour;
+      break;
+    case Monthly:
+      timeInterval = 60 * 60 * 6;
+      notification.repeatInterval = NSCalendarUnitHour;
       break;
     }
     notification.fireDate = [NSDate dateWithTimeIntervalSinceNow:timeInterval];
